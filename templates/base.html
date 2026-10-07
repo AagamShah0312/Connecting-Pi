@@ -1,0 +1,30 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Connecting Pie{% endblock %}</title>
+  <meta name="description" content="A trusted network for sharing skills and earning through meaningful work.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+  <link rel="stylesheet" href="{% static 'css/type-scale.css' %}">
+  <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <header class="site-header">
+    <a class="brand" href="{% url 'home' %}" aria-label="Connecting Pie home"><span class="brand-mark">C</span><span>Connecting <em>Pie</em></span></a>
+    {% if user.is_authenticated %}
+    <nav class="main-nav"><a href="{% url 'dashboard' %}">Workspace</a>{% if user.role == 'provider' %}<a href="{% url 'provider_directory' %}">Provider network</a>{% endif %}<a href="{% url 'profile' user.username %}">Profile</a><form method="post" action="{% url 'logout' %}">{% csrf_token %}<button class="nav-logout" type="submit">Log out</button></form></nav>
+    {% else %}<nav class="main-nav"><a href="{% url 'login' %}">Log in</a><a class="nav-cta" href="{% url 'signup' %}">Join the Pie <span>↗</span></a></nav>{% endif %}
+  </header>
+  {% if messages %}<div class="toast-stack">{% for message in messages %}<div class="toast">{{ message }}</div>{% endfor %}</div>{% endif %}
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="site-footer"><span>© 2026 Connecting Pie</span><span>Learn openly. Earn fairly.</span></footer>
+  <script src="{% static 'js/site.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

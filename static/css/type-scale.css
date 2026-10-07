@@ -1,0 +1,65 @@
+/* Readable type scale for workspaces and profile views. */
+.dashboard-shell,
+.directory-shell,
+.profile-shell,
+.form-page {
+  font-size: 16px;
+}
+
+.dashboard-shell .subhead h2,
+.profile-shell .subhead h2 {
+  font-size: 22px;
+}
+
+.dashboard-shell .subhead span,
+.profile-shell .subhead span,
+.directory-note {
+  font-size: 12px;
+}
+
+.owned-skill h3,
+.request-content strong,
+.request-content span,
+.recommendation-card h3,
+.profile-headline,
+.provider-card-large h2 {
+  font-size: 18px;
+}
+
+.owned-skill p,
+.request-content p,
+.recommendation-card > p,
+.provider-card-large p,
+.skill-detail p,
+.profile-note p:last-child,
+.empty-state p {
+  font-size: 15px;
+}
+
+.owned-skill > strong,
+.recommendation-card .card-topline > span:last-child,
+.skill-side strong,
+.sent-request-list > div,
+.skill-meta,
+.provider-line strong {
+  font-size: 13px;
+}
+
+.request-actions .mini-button,
+.skill-side .mini-button,
+.status {
+  font-size: 11px;
+}
+
+@media (max-width: 800px) {
+  .dashboard-shell .subhead h2,
+  .profile-shell .subhead h2 {
+    font-size: 20px;
+  }
+
+  .owned-skill h3,
+  .recommendation-card h3,
+  .provider-card-large h2 {
+    font-size: 21px;
+  }
+}

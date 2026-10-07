@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: connecting-pie
+    runtime: python
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --no-input && python manage.py migrate
+    startCommand: gunicorn connecting_pie.wsgi:application
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: connecting-pie-db
+          property: connectionString
+      - key: ALLOWED_HOSTS
+        value: connecting-pie.onrender.com
+      - key: CSRF_TRUSTED_ORIGINS
+        value: https://connecting-pie.onrender.com
+
+databases:
+  - name: connecting-pie-db
+    plan: free

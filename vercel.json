@@ -1,0 +1,1 @@
+{"builds":[{"src":"connecting_pie/wsgi.py","use":"@vercel/python"}],"routes":[{"src":"/(.*)","dest":"connecting_pie/wsgi.py"}]}
