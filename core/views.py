@@ -30,9 +30,19 @@ def dashboard(request):
         skills = request.user.skills.all()
         requests = HireRequest.objects.filter(skill__provider=request.user).select_related("skill", "receptor")
         return render(request, "dashboard.html", {"skills": skills, "requests": requests, "is_provider": True})
-    recommendations = Skill.objects.select_related("provider").annotate(request_count=Count("hire_requests")).order_by("-featured", "-request_count")[:8]
+    search_query = request.GET.get("q", "").strip()
+    recommendations = Skill.objects.select_related("provider").annotate(request_count=Count("hire_requests"))
+    if search_query:
+        recommendations = recommendations.filter(
+            Q(name__icontains=search_query)
+            | Q(category__icontains=search_query)
+            | Q(provider__first_name__icontains=search_query)
+            | Q(provider__last_name__icontains=search_query)
+            | Q(provider__username__icontains=search_query)
+        )
+    recommendations = recommendations.order_by("-featured", "-request_count")[:8]
     sent_requests = request.user.sent_requests.select_related("skill", "skill__provider")
-    return render(request, "dashboard.html", {"recommendations": recommendations, "sent_requests": sent_requests, "is_provider": False})
+    return render(request, "dashboard.html", {"recommendations": recommendations, "sent_requests": sent_requests, "is_provider": False, "search_query": search_query})
 
 
 @login_required
@@ -44,8 +54,8 @@ def provider_directory(request):
 
 
 def profile(request, username):
-    provider = get_object_or_404(User.objects.prefetch_related("skills"), username=username, role=User.Role.PROVIDER)
-    return render(request, "profile.html", {"provider": provider})
+    profile_user = get_object_or_404(User.objects.prefetch_related("skills"), username=username)
+    return render(request, "profile.html", {"profile_user": profile_user})
 
 
 @login_required

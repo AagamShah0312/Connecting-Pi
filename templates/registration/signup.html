@@ -1,6 +1,55 @@
 {% extends 'base.html' %}
-{% block title %}Join Connecting Pie{% endblock %}
-{% block content %}<section class="auth-shell signup-shell"><div class="auth-aside"><p class="eyebrow">Make your move</p><h1>There’s room<br><i>for your thing.</i></h1><p>Choose the side of the exchange that feels like you today. You can always grow into both.</p></div><div class="auth-panel"><p class="form-kicker">Create your profile</p><h2>Join the network</h2><form method="post" class="form-stack" id="signup-form">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}{% if field.name == 'role' %}<div class="field-wrap role-choice"><label>{{ field.label }}<span class="role-options">{% for radio in field %}<span class="role-option">{{ radio.tag }}<strong>{{ radio.choice_label }}</strong>{% if radio.choice_value == 'provider' %}<small>Share & earn</small>{% else %}<small>Learn & grow</small>{% endif %}</span>{% endfor %}</span></label></div>{% elif field.name == 'degree' %}<div class="field-wrap role-only-provider"><label>{{ field.label }}{{ field }}{% for error in field.errors %}<small class="error-text">{{ error }}</small>{% endfor %}</label></div>{% elif field.name == 'business_name' %}<div class="field-wrap role-only-receptor"><label>{{ field.label }} <span class="optional-label">(if any)</span>{{ field }}{% for error in field.errors %}<small class="error-text">{{ error }}</small>{% endfor %}</label></div>{% else %}<div class="field-wrap"><label>{{ field.label }}{{ field }}{% for error in field.errors %}<small class="error-text">{{ error }}</small>{% endfor %}</label></div>{% endif %}{% endfor %}<button class="button button-dark button-full" type="submit">Create my profile <span>↗</span></button></form><p class="form-foot">Already connected? <a href="{% url 'login' %}">Log in</a></p></div></section>{% endblock %}
-{% block extra_js %}<script>document.addEventListener('DOMContentLoaded', function () { const choices = document.querySelectorAll('input[name="role"]'); const providerFields = document.querySelectorAll('.role-only-provider'); const receptorFields = document.querySelectorAll('.role-only-receptor'); function updateFields() { const role = document.querySelector('input[name="role"]:checked')?.value; providerFields.forEach((field) => field.hidden = role !== 'provider'); receptorFields.forEach((field) => field.hidden = role !== 'receptor'); } choices.forEach((choice) => choice.addEventListener('change', updateFields)); updateFields(); });</script>{% endblock %}{% extends 'base.html' %}
-{% block title %}Join Connecting Pie{% endblock %}
-{% block content %}<section class="auth-shell signup-shell"><div class="auth-aside"><p class="eyebrow">Make your move</p><h1>There’s room<br><i>for your thing.</i></h1><p>Choose the side of the exchange that feels like you today. You can always grow into both.</p></div><div class="auth-panel"><p class="form-kicker">Create your profile</p><h2>Join the network</h2><form method="post" class="form-stack">{% csrf_token %}{{ form.non_field_errors }}{% for field in form %}<div class="field-wrap{% if field.name == 'role' %} role-choice{% endif %}"><label>{{ field.label }}{% if field.name == 'role' %}<span class="role-options">{% for radio in field %}<span class="role-option">{{ radio.tag }}<strong>{{ radio.choice_label }}</strong>{% if radio.choice_value == 'provider' %}<small>Share & earn</small>{% else %}<small>Learn & grow</small>{% endif %}</span>{% endfor %}</span>{% else %}{{ field }}{% endif %}</label>{% for error in field.errors %}<small class="error-text">{{ error }}</small>{% endfor %}</div>{% endfor %}<button class="button button-dark button-full" type="submit">Create my profile <span>↗</span></button></form><p class="form-foot">Already connected? <a href="{% url 'login' %}">Log in</a></p></div></section>{% endblock %}
+{% block title %}Join Connecting Pi{% endblock %}
+{% block content %}
+<section class="auth-shell signup-shell">
+  <div class="auth-aside">
+    <p class="eyebrow">Make your move</p>
+    <h1>There’s room<br><i>for your thing.</i></h1>
+    <p>Choose the side of the exchange that feels like you today. You can always grow into both.</p>
+  </div>
+  <div class="auth-panel signup-panel">
+    <p class="form-kicker">Create your profile</p>
+    <h2>Join the network</h2>
+    <form method="post" class="form-stack" id="signup-form">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {% for field in form %}
+        {% if field.name == 'role' %}
+          <div class="field-wrap role-choice">
+            <label>{{ field.label }}</label>
+            <span class="role-options">
+              {% for radio in field %}
+                <span class="role-option">{{ radio.tag }}<strong>{{ radio.choice_label }}</strong>{% if radio.choice_value == 'provider' %}<small>Share & earn</small>{% else %}<small>Learn & grow</small>{% endif %}</span>
+              {% endfor %}
+            </span>
+          </div>
+        {% elif field.name == 'degree' %}
+          <div class="field-wrap role-only-provider"><label>{{ field.label }}{{ field }}</label>{% for error in field.errors %}<small class="error-text">{{ error }}</small>{% endfor %}</div>
+        {% elif field.name == 'business_name' %}
+          <div class="field-wrap role-only-receptor"><label>{{ field.label }} <span class="optional-label">(if any)</span>{{ field }}</label>{% for error in field.errors %}<small class="error-text">{{ error }}</small>{% endfor %}</div>
+        {% else %}
+          <div class="field-wrap"><label>{{ field.label }}{{ field }}</label>{% for error in field.errors %}<small class="error-text">{{ error }}</small>{% endfor %}</div>
+        {% endif %}
+      {% endfor %}
+      <button class="button button-dark button-full" type="submit">Create my profile <span>↗</span></button>
+    </form>
+    <p class="form-foot">Already connected? <a href="{% url 'login' %}">Log in</a></p>
+  </div>
+</section>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const choices = document.querySelectorAll('input[name="role"]');
+  const providerFields = document.querySelectorAll('.role-only-provider');
+  const receptorFields = document.querySelectorAll('.role-only-receptor');
+  function updateFields() {
+    const role = document.querySelector('input[name="role"]:checked')?.value;
+    providerFields.forEach((field) => { field.hidden = role !== 'provider'; });
+    receptorFields.forEach((field) => { field.hidden = role !== 'receptor'; });
+  }
+  choices.forEach((choice) => choice.addEventListener('change', updateFields));
+  updateFields();
+});
+</script>
+{% endblock %}

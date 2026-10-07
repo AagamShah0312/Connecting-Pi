@@ -19,7 +19,7 @@ class SignUpForm(UserCreationForm):
 class SkillForm(forms.ModelForm):
     class Meta:
         model = Skill
-        fields = ("name", "category", "description", "featured")
+        fields = ("name", "category", "description")
         widgets = {"description": forms.Textarea(attrs={"rows": 4})}
 
 

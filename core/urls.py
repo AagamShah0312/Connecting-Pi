@@ -12,6 +12,6 @@ urlpatterns = [
     path("providers/<str:username>/", views.profile, name="profile"),
     path("skills/new/", views.create_skill, name="create_skill"),
     path("skills/<int:skill_id>/hire/", views.hire_skill, name="hire_skill"),
-    path("requests/<int:request_id>/<str:action>/", views.update_request, name="update_request"),
     path("requests/<int:request_id>/chat/", views.chat, name="chat"),
+    path("requests/<int:request_id>/<str:action>/", views.update_request, name="update_request"),
 ]

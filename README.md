@@ -13,10 +13,17 @@ C:/Users/cebc/anaconda3/python.exe manage.py runserver
 
 Open `http://127.0.0.1:8000/`.
 
+To load demo data with 30 varied service providers and no seeded receptors:
+
+```powershell
+C:/Users/cebc/anaconda3/python.exe manage.py seed_demo
+```
+
 ## Roles
 
-- **Service provider:** publish skills, see other providers, and accept or decline receptor requests.
-- **Service receptor:** discover provider skills and send a request to hire or learn. Receptors are not listed in the provider directory.
+- **Service provider:** add a degree, publish skills, see other providers, and accept or decline receptor requests.
+- **Service receptor:** discover provider skills, optionally add a business name, and send a request to learn. Receptors are not listed in the provider directory.
+- **Private chat:** providers and receptors can chat on a request to agree scope, timing, and price without publishing rates.
 
 ## Production deployment
 
